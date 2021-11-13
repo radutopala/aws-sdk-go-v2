@@ -2,9 +2,9 @@ name: Codegen Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ '*' ]
   pull_request:
-    branches: [ main ]
+    branches: [ '*' ]
 
 jobs:
   codegen-test:
