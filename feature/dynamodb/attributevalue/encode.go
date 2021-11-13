@@ -175,8 +175,8 @@ type Marshaler interface {
 //
 // Marshal cannot represent cyclic data structures and will not handle them.
 // Passing cyclic structures to Marshal will result in an infinite recursion.
-func Marshal(in interface{}) (types.AttributeValue, error) {
-	return NewEncoder().Encode(in)
+func Marshal(in interface{}, optFns ...func(*EncoderOptions)) (types.AttributeValue, error) {
+	return NewEncoder(optFns...).Encode(in)
 }
 
 // MarshalMap is an alias for Marshal func which marshals Go value type to a
@@ -184,8 +184,8 @@ func Marshal(in interface{}) (types.AttributeValue, error) {
 // empty AttributeValue map will be returned.
 //
 // This is useful for APIs such as PutItem.
-func MarshalMap(in interface{}) (map[string]types.AttributeValue, error) {
-	av, err := NewEncoder().Encode(in)
+func MarshalMap(in interface{}, optFns ...func(*EncoderOptions)) (map[string]types.AttributeValue, error) {
+	av, err := NewEncoder(optFns...).Encode(in)
 
 	asMap, ok := av.(*types.AttributeValueMemberM)
 	if err != nil || av == nil || !ok {
@@ -198,8 +198,8 @@ func MarshalMap(in interface{}) (map[string]types.AttributeValue, error) {
 // MarshalList is an alias for Marshal func which marshals Go value
 // type to a slice of AttributeValues. If the in parameter does not serialize
 // to a slice, an empty AttributeValue slice will be returned.
-func MarshalList(in interface{}) ([]types.AttributeValue, error) {
-	av, err := NewEncoder().Encode(in)
+func MarshalList(in interface{}, optFns ...func(*EncoderOptions)) ([]types.AttributeValue, error) {
+	av, err := NewEncoder(optFns...).Encode(in)
 
 	asList, ok := av.(*types.AttributeValueMemberL)
 	if err != nil || av == nil || !ok {
